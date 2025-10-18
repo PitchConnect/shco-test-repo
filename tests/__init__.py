@@ -1,2 +1,1 @@
-"""SHCO Test Repository - Tests"""
-
+# Make tests a proper package
