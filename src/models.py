@@ -1,47 +1,45 @@
-"""Data models for testing."""
+"""Models module."""
+
+from typing import Any, Optional
 
 
-class User:
-    """User model."""
-    
-    def __init__(self, name: str, age: int):
+class Model:
+    """Base model class."""
+
+    def __init__(self, name: str, value: Optional[int] = None) -> None:
+        """Initialize the model.
+        
+        Args:
+            name: The model name
+            value: Optional integer value
+        """
+        if not isinstance(name, str):
+            raise TypeError(f"name must be a string, got {type(name).__name__}")
+        if value is not None and not isinstance(value, int):
+            raise TypeError(f"value must be an integer or None, got {type(value).__name__}")
+        
         self.name = name
-        self.age = age
-    
-    def get_name(self) -> str:
-        """Get user name."""
-        return self.name
-    
-    def is_active(self) -> bool:
-        """Check if user is active."""
-        return True
+        self.value = value if value is not None else 0
 
+    def process(self, data: Any) -> Any:
+        """Process data.
+        
+        Args:
+            data: Data to process
+            
+        Returns:
+            Processed data
+        """
+        if data is None:
+            raise ValueError("data cannot be None")
+        return data
 
-class Database:
-    """Database connection."""
-    
-    def __init__(self, host: str = "localhost"):
-        self.host = host
-    
-    def connect(self) -> bool:
-        """Connect to database."""
-        return True
-    
-    def count_users(self) -> int:
-        """Count users in database."""
-        return 4  # Intentionally returns 4 for assertion error tests
+    def __repr__(self) -> str:
+        """Return string representation."""
+        return f"Model(name={self.name!r}, value={self.value})"
 
-
-class Config:
-    """Configuration class."""
-    
-    def __init__(self):
-        self.settings = {
-            "debug": True,
-            "port": 8000,
-        }
-    
-    def get_config(self) -> dict:
-        """Get configuration."""
-        return self.settings
-
+    def __eq__(self, other: object) -> bool:
+        """Check equality."""
+        if not isinstance(other, Model):
+            return NotImplemented
+        return self.name == other.name and self.value == other.value

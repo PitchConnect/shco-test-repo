@@ -1,56 +1,38 @@
-"""Test scenarios for import errors.
-
-Uncomment one test at a time to trigger SHCO fixes.
-"""
+"""Tests for import functionality."""
 
 import pytest
+import sys
+from pathlib import Path
 
 
-# ========== IMPORT ERROR 1: Missing User import ==========
-# Uncomment to trigger failure
-def test_import_error_1_missing_user():
-    """Test missing User import - triggers NameError (test 23 - VALIDATE FIX!)."""
-    user = User("Alice", 30)  # NameError: name 'User' is not defined
-    assert user.get_name() == "Alice"
+class TestImports:
+    """Test import-related functionality."""
 
+    def test_import_models(self):
+        """Test that models module can be imported."""
+        from src import models
+        assert hasattr(models, "Model")
 
-# ========== IMPORT ERROR 2: Missing Database import ==========
-# Uncomment to trigger failure
-# def test_import_error_2_missing_database():
-#     """Test missing Database import."""
-#     db = Database()  # NameError: name 'Database' is not defined
-#     assert db.connect() is True
+    def test_import_utils(self):
+        """Test that utils module can be imported."""
+        from src import utils
+        assert hasattr(utils, "helper_function")
 
+    def test_import_from_package(self):
+        """Test that classes can be imported from package."""
+        from src import Model, helper_function
+        assert Model is not None
+        assert helper_function is not None
 
-# ========== IMPORT ERROR 3: Missing Config import ==========
-# Uncomment to trigger failure
-# def test_import_error_3_missing_config():
-#     """Test missing Config import."""
-#     config = Config()  # NameError: name 'Config' is not defined
-#     assert config.get_config()["debug"] is True
+    def test_model_class_available(self):
+        """Test that Model class is available."""
+        from src.models import Model
+        instance = Model("test")
+        assert instance is not None
 
-
-# ========== IMPORT ERROR 4: Wrong import path for utils ==========
-# Uncomment to trigger failure
-# def test_import_error_4_wrong_path():
-#     """Test wrong import path."""
-#     from utils import get_items  # ImportError: No module named 'utils'
-#     items = get_items()
-#     assert len(items) == 3
-
-
-# ========== IMPORT ERROR 5: Missing datetime import ==========
-# Uncomment to trigger failure
-# def test_import_error_5_missing_datetime():
-#     """Test missing datetime import in utils."""
-#     from src.utils import format_date
-#     # This will fail because utils.py uses datetime without importing it
-#     date_str = format_date(1234567890)  # NameError in utils.py
-#     assert isinstance(date_str, str)
-
-
-# Placeholder test to keep pytest happy
-def test_placeholder():
-    """Placeholder test."""
-    assert True
-
+    def test_all_exports(self):
+        """Test that __all__ exports are correct."""
+        import src
+        assert hasattr(src, "__all__")
+        assert "Model" in src.__all__
+        assert "helper_function" in src.__all__

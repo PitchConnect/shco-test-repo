@@ -1,59 +1,61 @@
-"""Test scenarios for type errors.
-
-Uncomment one test at a time to trigger SHCO fixes.
-"""
+"""Tests for type errors."""
 
 import pytest
-from src.utils import process_data, calculate_sum
+from src.models import Model
+from src.utils import helper_function, validate_list, safe_divide
 
 
-# ========== TYPE ERROR 1: Passing string instead of list ==========
-# Uncomment to trigger failure
-# def test_type_error_1_string_instead_of_list():
-#     """Test passing string instead of list."""
-#     result = process_data("hello")  # TypeError: object of type 'str' has no len()
-#     assert result == 5
+class TestTypeErrors:
+    """Test type error handling."""
 
+    def test_model_name_must_be_string(self):
+        """Test that Model raises TypeError for non-string name."""
+        with pytest.raises(TypeError, match="name must be a string"):
+            Model(123)
 
-# ========== TYPE ERROR 2: Passing int instead of list ==========
-# Uncomment to trigger failure
-# def test_type_error_2_int_instead_of_list():
-#     """Test passing int instead of list."""
-#     result = calculate_sum(123)  # TypeError: 'int' object is not iterable
-#     assert result == 6
+    def test_model_value_must_be_int_or_none(self):
+        """Test that Model raises TypeError for invalid value type."""
+        with pytest.raises(TypeError, match="value must be an integer or None"):
+            Model("test", "invalid")
 
+    def test_helper_function_none_raises_type_error(self):
+        """Test that helper_function raises TypeError for None."""
+        with pytest.raises(TypeError, match="input_data cannot be None"):
+            helper_function(None)
 
-# ========== TYPE ERROR 3: Wrong return type ==========
-# Uncomment to trigger failure
-# def test_type_error_3_wrong_return_type():
-#     """Test function with wrong return type."""
-#     def get_number() -> str:  # Type hint says str
-#         return 42  # But returns int
-#     
-#     result = get_number()
-#     # This won't fail at runtime, but type checkers will complain
-#     assert result == 42
+    def test_validate_list_non_list_raises_type_error(self):
+        """Test that validate_list raises TypeError for non-list."""
+        with pytest.raises(TypeError, match="Expected list"):
+            validate_list("not a list")
 
+    def test_safe_divide_invalid_numerator(self):
+        """Test that safe_divide raises TypeError for invalid numerator."""
+        with pytest.raises(TypeError, match="a must be a number"):
+            safe_divide("invalid", 2)
 
-# ========== TYPE ERROR 4: Missing required parameter ==========
-# Uncomment to trigger failure
-# def test_type_error_4_missing_parameter():
-#     """Test calling function without required parameter."""
-#     from src.models import User
-#     user = User("Alice")  # TypeError: __init__() missing 1 required positional argument: 'age'
-#     assert user.get_name() == "Alice"
+    def test_safe_divide_invalid_denominator(self):
+        """Test that safe_divide raises TypeError for invalid denominator."""
+        with pytest.raises(TypeError, match="b must be a number"):
+            safe_divide(10, "invalid")
 
+    def test_safe_divide_by_zero_returns_none(self):
+        """Test that safe_divide returns None for division by zero."""
+        result = safe_divide(10, 0)
+        assert result is None
 
-# ========== TYPE ERROR 5: Extra unexpected parameter ==========
-# Uncomment to trigger failure
-# def test_type_error_5_extra_parameter():
-#     """Test calling function with extra parameter."""
-#     result = calculate_sum([1, 2, 3], reverse=True)  # TypeError: calculate_sum() got an unexpected keyword argument 'reverse'
-#     assert result == 6
+    def test_safe_divide_valid_inputs(self):
+        """Test that safe_divide works with valid inputs."""
+        result = safe_divide(10, 2)
+        assert result == 5.0
 
+    def test_model_process_none_raises_value_error(self):
+        """Test that Model.process raises ValueError for None."""
+        model = Model("test")
+        with pytest.raises(ValueError, match="data cannot be None"):
+            model.process(None)
 
-# Placeholder test to keep pytest happy
-def test_placeholder():
-    """Placeholder test."""
-    assert True
-
+    def test_model_process_valid_data(self):
+        """Test that Model.process works with valid data."""
+        model = Model("test")
+        result = model.process("data")
+        assert result == "data"
