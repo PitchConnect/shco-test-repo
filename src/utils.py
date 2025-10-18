@@ -1,23 +1,44 @@
-"""Utility functions for testing."""
+"""Utility functions."""
+
+from typing import Any, List, Optional
 
 
-def get_items() -> list:
-    """Get list of items."""
-    return [1, 2, 3]  # Intentionally returns 3 items for assertion error tests
+def safe_divide(a: float, b: float) -> Optional[float]:
+    """Safely divide two numbers.
+    
+    Args:
+        a: Numerator
+        b: Denominator
+        
+    Returns:
+        Result of division or None if division by zero
+    """
+    if b == 0:
+        return None
+    return a / b
 
 
-def format_date(timestamp: int) -> str:
-    """Format timestamp to date string."""
-    # This will cause import error when datetime is not imported
-    return datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d")
+def validate_list(items: List[Any]) -> bool:
+    """Validate a list is not empty.
+    
+    Args:
+        items: List to validate
+        
+    Returns:
+        True if list is valid and not empty
+    """
+    return isinstance(items, list) and len(items) > 0
 
 
-def process_data(data: list) -> int:
-    """Process data and return count."""
-    return len(data)
-
-
-def calculate_sum(numbers: list) -> int:
-    """Calculate sum of numbers."""
-    return sum(numbers)
-
+def process_data(data: Any) -> str:
+    """Process data and return string representation.
+    
+    Args:
+        data: Data to process
+        
+    Returns:
+        String representation of data
+    """
+    if data is None:
+        return "None"
+    return str(data)
