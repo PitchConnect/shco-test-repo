@@ -1,2 +1,1 @@
-"""SHCO Test Repository - Tests"""
-
+"""Tests package initialization."""
