@@ -1,47 +1,29 @@
-"""Data models for testing."""
+"""Models module."""
+
+from typing import Any, Optional
 
 
-class User:
-    """User model."""
-    
-    def __init__(self, name: str, age: int):
+class BaseModel:
+    """Base model class."""
+
+    def __init__(self, name: str, value: Optional[Any] = None) -> None:
+        """Initialize the model.
+        
+        Args:
+            name: The name of the model
+            value: Optional value to store
+        """
         self.name = name
-        self.age = age
-    
-    def get_name(self) -> str:
-        """Get user name."""
-        return self.name
-    
-    def is_active(self) -> bool:
-        """Check if user is active."""
-        return True
+        self.value = value
 
+    def __repr__(self) -> str:
+        """String representation."""
+        return f"BaseModel(name={self.name!r}, value={self.value!r})"
 
-class Database:
-    """Database connection."""
-    
-    def __init__(self, host: str = "localhost"):
-        self.host = host
-    
-    def connect(self) -> bool:
-        """Connect to database."""
-        return True
-    
-    def count_users(self) -> int:
-        """Count users in database."""
-        return 4  # Intentionally returns 4 for assertion error tests
-
-
-class Config:
-    """Configuration class."""
-    
-    def __init__(self):
-        self.settings = {
-            "debug": True,
-            "port": 8000,
-        }
-    
-    def get_config(self) -> dict:
-        """Get configuration."""
-        return self.settings
-
+    def validate(self) -> bool:
+        """Validate the model.
+        
+        Returns:
+            True if valid, False otherwise
+        """
+        return bool(self.name)
