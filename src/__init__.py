@@ -1,2 +1,1 @@
-"""SHCO Test Repository - Source Code"""
-
+# Make src a proper package
