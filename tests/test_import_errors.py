@@ -1,3 +1,4 @@
+from src.models import User
 """Test scenarios for import errors.
 
 Uncomment one test at a time to trigger SHCO fixes.
