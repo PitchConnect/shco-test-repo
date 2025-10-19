@@ -9,7 +9,7 @@ import pytest
 # ========== IMPORT ERROR 1: Missing User import ==========
 # Uncomment to trigger failure
 def test_import_error_1_missing_user():
-    """Test missing User import - triggers NameError (TEST 47 - WEBHOOK END-TO-END!)."""
+    """Test missing User import - triggers NameError (TEST 48 - WEBHOOK FIX!)."""
     user = User("Alice", 30)  # NameError: name 'User' is not defined
     assert user.get_name() == "Alice"
 
