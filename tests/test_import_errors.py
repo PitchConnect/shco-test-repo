@@ -9,7 +9,7 @@ import pytest
 # ========== IMPORT ERROR 1: Missing User import ==========
 # Uncomment to trigger failure
 def test_import_error_1_missing_user():
-    """Test missing User import - triggers NameError (TEST 51 - TOKEN FIXED!)."""
+    """Test missing User import - triggers NameError (TEST 52 - ALL FIXES DEPLOYED!)."""
     user = User("Alice", 30)  # NameError: name 'User' is not defined
     assert user.get_name() == "Alice"
 
@@ -17,7 +17,7 @@ def test_import_error_1_missing_user():
 # ========== IMPORT ERROR 2: Missing Database import ==========
 # Uncomment to trigger failure
 def test_import_error_2_missing_database():
-    """Test missing Database import (TEST 51 - TOKEN FIXED!)."""
+    """Test missing Database import (TEST 52 - ALL FIXES DEPLOYED!)."""
     db = Database()  # NameError: name 'Database' is not defined
     assert db.connect() is True
 
@@ -25,7 +25,7 @@ def test_import_error_2_missing_database():
 # ========== IMPORT ERROR 3: Missing Config import ==========
 # Uncomment to trigger failure
 def test_import_error_3_missing_config():
-    """Test missing Config import (TEST 51 - TOKEN FIXED!)."""
+    """Test missing Config import (TEST 52 - ALL FIXES DEPLOYED!)."""
     config = Config()  # NameError: name 'Config' is not defined
     assert config.get_config()["debug"] is True
 
