@@ -34,14 +34,30 @@ class Database:
 
 class Config:
     """Configuration class."""
-    
+
     def __init__(self):
         self.settings = {
             "debug": True,
             "port": 8000,
         }
-    
+
     def get_config(self) -> dict:
         """Get configuration."""
         return self.settings
+
+class UserProfile:
+    """User profile model."""
+
+    def __init__(self, user: User):
+        self.user = user
+        self.bio = f"Profile for {user.get_name()}"
+
+    def get_bio(self) -> str:
+        """Get user bio."""
+        return self.bio
+
+    def is_complete(self) -> bool:
+        """Check if profile is complete."""
+        return True
+
 
